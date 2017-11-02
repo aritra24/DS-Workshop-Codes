@@ -1,9 +1,8 @@
 typedef struct node
 {
 	int data;
-	struct node *next;
+	struct node *prev, *next;
 }node;
-
 
 int isEmpty(node *first)
 {
@@ -22,7 +21,9 @@ node * insertRear(node *first,int x)
 	}
 
 	temp->next = (node *)malloc(sizeof(node));
+	node *temp2 = temp;
 	temp = temp->next;
+	temp->prev = temp2;
 	temp->data = x;
 	temp->next = NULL;
 	return first;
@@ -32,7 +33,9 @@ node * insertFront(node *first, int x)
 {
 	node *temp = (node *)malloc(sizeof(node));
 	temp->data = x;
+	temp->prev = first;
 	temp->next = first->next;
+	first->prev = NULL;
 	first->next = temp;
 	return first;
 }
@@ -43,41 +46,40 @@ node * deleteFirst(node *first)
 		return NULL;
 	node *temp = first->next;
 	first->next = temp->next;
+	temp->prev = first;
 	free(temp);
 	return first;
 }
 
 node * deleteLast(node *first)
 {
-	node *prev = first;
-	node *temp = first->next;
+	node *temp = first;
 	if(isEmpty(first))
 		return NULL;
 	while(temp->next != NULL)
 	{
-		prev = temp;
 		temp = temp->next;
 	}
-	prev->next = NULL;
-	free(temp);
+	temp = temp->prev;
+	free(temp->next);
+	temp->next = NULL;
 	return first;
 }
 
 node * delete(node *first, int x)
 {
-	node *prev = NULL;
 	node * temp = first;
 	if(isEmpty(first))
 		return NULL;
 	while(temp != NULL && temp->data != x)
 	{
-		prev = temp;
 		temp = temp->next;
 	}
 
 	if(temp != NULL)
 	{
-		prev->next = temp->next;
+		node *temp2=temp->prev;
+		temp2->next = temp->next;
 		free(temp);
 	}
 	return first;
@@ -85,13 +87,14 @@ node * delete(node *first, int x)
 
 node * reverse(node *first)
 {
-	node *prev = NULL, *current = NULL, *next = first->next;
-	while(next != NULL)
+	node *current = NULL, *Next = first->next;
+	Next->prev = NULL;
+	while(Next != NULL)
 	{
-		prev = current;
-		current = next;
-		next = next->next;
-		current->next = prev;
+		current=Next;
+		Next = Next->next;
+		current->next = current->prev;
+		current->prev = Next;
 	}
 	first->next = current;
 	return first;
@@ -104,11 +107,11 @@ void display(node *first)
 		printf("Empty\n");
 		return;
 	}
-	node *temp=first->next;
+	node *temp = first->next;
 	while(temp != NULL)
 	{
-		printf("%d -> ",temp->data);
+		printf("%d <--> ",temp->data);
 		temp = temp->next;
 	}
-	printf("End\n");
+	printf("end\n");
 }

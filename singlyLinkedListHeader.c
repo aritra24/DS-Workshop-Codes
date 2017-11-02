@@ -7,7 +7,8 @@ int main()
 {
 	int x,y;
 	node *first = (node *)malloc(sizeof(node));
-	
+	first->next = NULL;
+	first->data = -100;
 	while(1)
 	{
 		printf("Enter your choice. 1 for insertfront, 2 for insertrear, \

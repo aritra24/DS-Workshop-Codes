@@ -76,7 +76,7 @@ node * deleteLast(node *first)
 
 node * delete(node *first, int x)
 {
-	node * temp = first;
+	node *temp = first;
 	if(isEmpty(first))
 		return NULL;
 	while(temp != NULL && temp->data != x)
@@ -86,7 +86,7 @@ node * delete(node *first, int x)
 
 	if(temp != NULL)
 	{
-		node temp2=temp->prev;
+		node *temp2=temp->prev;
 		temp2->next = temp->next;
 		free(temp);
 	}
@@ -95,12 +95,13 @@ node * delete(node *first, int x)
 
 node * reverse(node *first)
 {
-	node *current = first, *Next = first->next;
-	while(next != NULL)
+	node *current = NULL, *Next = first;
+	while(Next != NULL)
 	{
-		current->next = current->prev;
-		current->prev = next;
+		current = Next;
 		Next = Next->next;
+		current->next = current->prev;
+		current->prev = Next;
 	}
 	return current;
 }

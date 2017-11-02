@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "doublyLinkedList.h"
-
+#include "doublyLinkedListHeader.h"
 int main()
 {
 	int x,y;
-	node *first = NULL;
+	node *first = (node *)malloc(sizeof(node));
+	first->next = NULL;
+	first->prev = NULL;
+	first->data = -100;
 	while(1)
 	{
 		printf("Enter your choice. 1 for insertfront, 2 for insertrear, \
