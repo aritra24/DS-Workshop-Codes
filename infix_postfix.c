@@ -1,4 +1,4 @@
-// Converting postfix to prefix
+// Converting infix to postfix
 #include<ctype.h>
 #include<stdio.h>
 #include<stdlib.h>
@@ -67,8 +67,6 @@ int main()
     int i=0;
     while(infix[i] != '\0')
     {   
-        //printf("%c\n" , infix[i]);
-      
         if(isalnum(infix[i]))
             printf("%c" , infix[i]);
         else
